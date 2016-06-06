@@ -10,34 +10,9 @@
 
 <body>
 <div id="form-rd"></div>
+<script type="text/javascript" src="https://s3-sa-east-1.amazonaws.com/rdstation-static/js/rd/beta/rdforms.min.js"></script>
 <script type="text/javascript">
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length,c.length);
-        }
-    }
-    return "";
-}
-
-window.onload = function createIframe() {
-  console.log('load')
-  var link = "https://forms.rdstation.com.br/newsletter-c31beb8e1cf3573f0532" + "?ga=" + getCookie('_ga');
-  var iframe = document.createElement('iframe');
-  iframe.frameBorder=0;
-  iframe.width="450px";
-  iframe.height="660px";
-  iframe.style="background: none; border: none;";
-  iframe.setAttribute("src", link);
-  document.getElementById("form-rd").appendChild(iframe);
-}
-
+  window.onload = RdForms.createForm('newsletter-c31beb8e1cf3573f0532', 'form-rd', '450px', '660px');
 </script>
 
 <script>
