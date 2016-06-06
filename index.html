@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Newsletter - Bruno Almeida</title>
+</head>
+
+<body>
+<div id="form-rd"></div>
+<script type="text/javascript">
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length,c.length);
+        }
+    }
+    return "";
+}
+
+window.onload = function createIframe() {
+  console.log('load')
+  var link = "https://forms.rdstation.com.br/newsletter-c31beb8e1cf3573f0532" + "?ga=" + getCookie('_ga');
+  var iframe = document.createElement('iframe');
+  iframe.frameBorder=0;
+  iframe.width="450px";
+  iframe.height="660px";
+  iframe.style="background: none; border: none;";
+  iframe.setAttribute("src", link);
+  document.getElementById("form-rd").appendChild(iframe);
+}
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78823456-1', 'auto');
+  ga('send', 'pageview');
+
+  console.log('body')
+</script>
+
+<!-- super cache -->
