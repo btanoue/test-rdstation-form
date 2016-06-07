@@ -4,7 +4,12 @@ var RdForms = {
     this._withjQuery(function () {
       $ = jQuery;
       $(document).ready(function(){
-        $this._createForm(url, form_id, width, height)
+        var iframe = $this._createForm(url, form_id, width, height);
+        if ($this._hasNewGA()) {
+          setTimeout(function(){
+            $this._sendUserDataToIframe(iframe);
+          }, 2500);
+        }
       });
     });
   },
@@ -26,15 +31,33 @@ var RdForms = {
     iframe.style = 'background: none; border: none;';
     iframe.setAttribute('src', link);
     document.getElementById(form_id).appendChild(iframe);
+    return iframe;
   },
 
   _createIframeSrc: function(url) {
-    if (typeof _gat !== 'undefined') {
+    if (this._hasOldGA() === true) {
       var pageTracker = _gat._getTrackerByName();
       return pageTracker._getLinkerUrl(url);
-    } else {
-      
+    } else if (this._hasNewGA() === true) {
+      return url + '?ga=new';
     }
+  },
+
+  _sendUserDataToIframe: function (iframe) {
+    var url = window.location;
+
+    ga(function(tracker) {
+      var clientId = tracker.get('clientId');
+      iframe.contentWindow.postMessage({ clientId: clientId, url: url.pathname + url.search }, '*');
+    });
+  },
+
+  _hasNewGA: function () {
+    return (typeof ga != 'undefined');
+  },
+
+  _hasOldGA: function () {
+    return (typeof _gaq != 'undefined');
   },
 
   _loadScript: function (scriptSource, callback) {
