@@ -5,11 +5,6 @@ var RdForms = {
       $ = jQuery;
       $(document).ready(function(){
         var iframe = $this._createForm(url, form_id, width, height);
-        if ($this._hasNewGA()) {
-          setTimeout(function(){
-            $this._sendUserDataToIframe(iframe);
-          }, 2500);
-        }
       });
     });
   },
@@ -29,7 +24,10 @@ var RdForms = {
     iframe.width = width;
     iframe.height = height;
     iframe.style = 'background: none; border: none;';
-    iframe.setAttribute('src', link);
+    iframe.src = link;
+    iframe.onload = function() {
+      $this._sendUserDataToIframe(iframe);
+    };
     document.getElementById(form_id).appendChild(iframe);
     return iframe;
   },
@@ -39,7 +37,7 @@ var RdForms = {
       var pageTracker = _gat._getTrackerByName();
       return pageTracker._getLinkerUrl(url);
     } else if (this._hasNewGA() === true) {
-      return url + '?ga=new';
+      return (url.replace('http:', '').replace('https:', '')) + '?ga=new';
     }
   },
 
@@ -48,7 +46,7 @@ var RdForms = {
 
     ga(function(tracker) {
       var clientId = tracker.get('clientId');
-      iframe.contentWindow.postMessage({ clientId: clientId, url: url.pathname + url.search }, '*');
+      iframe.contentWindow.postMessage(clientId, '*');
     });
   },
 
